@@ -3,13 +3,35 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-public class ExampleSubsystem extends SubsystemBase {
+
+public class Drivetrain extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {}
+private final CANSparkMax rightmotor1 = new CANSparkMax(Constants.Drivetrain.RightMotors.kRightMotor1_Port, MotorType.kBrushless);
+private final CANSparkMax rightmotor2 = new CANSparkMax(Constants.Drivetrain.RightMotors.kRightMotor2_Port, MotorType.kBrushless);
+private final CANSparkMax leftmotor1 = new CANSparkMax(Constants.Drivetrain.LeftMotors.kLeftMotor1_Port, MotorType.kBrushless);
+private final CANSparkMax leftmotor2 = new CANSparkMax(Constants.Drivetrain.LeftMotors.kLeftMotor2_Port, MotorType.kBrushless);
+
+
+ public Drivetrain() {
+  leftmotor2.follow(leftmotor1); 
+  rightmotor2.follow(rightmotor1);
+ }
+ public void setLeft(double power){
+leftmotor1.set(power);
+ }
+  public void setRight(double power){
+rightmotor1.set(power);
+
+ }
+
 
   /**
    * Example command factory method.
