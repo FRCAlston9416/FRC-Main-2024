@@ -37,7 +37,6 @@ public class RobotContainer {
       drivetrain.setRight(m_driverController.getRightY());
       drivetrain.setLeft(m_driverController.getLeftY());
       }, drivetrain));
-
       this.launcher.setDefaultCommand(new RunCommand(() ->{
         launcher.setlaunchMotor(m_driverController.getLeftX());
         launcher.setsecondaryMotor(m_driverController.getLeftX());
