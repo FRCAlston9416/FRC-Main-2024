@@ -38,13 +38,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     this.drivetrain.setDefaultCommand(new RunCommand(() ->{
-      drivetrain.setRight(m_driverController.getRightY());
-      drivetrain.setLeft(m_driverController.getLeftY());
+      // drivetrain.setRight(m_driverController.getRightY());
+      // drivetrain.setLeft(m_driverController.getLeftY());
+      drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
       }, drivetrain));
       this.launcher.setDefaultCommand(new RunCommand(() ->{
         launcher.setlaunchMotor(m_driverController.getLeftX());
         launcher.setsecondaryMotor(m_driverController.getLeftX());
-      }));
+      }, launcher));
 
     configureBindings();
 }
