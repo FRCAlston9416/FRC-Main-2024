@@ -43,8 +43,10 @@ public class RobotContainer {
       drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
       }, drivetrain));
       this.launcher.setDefaultCommand(new RunCommand(() ->{
-        launcher.setlaunchMotor(m_driverController.getLeftX());
-        launcher.setsecondaryMotor(m_driverController.getLeftX());
+        // launcher.setlaunchMotor(m_driverController.getLeftX(), m_driverController.getRightX());
+        // launcher.setsecondaryMotor(m_driverController.getLeftX(), m_driverController.getRightX());
+        launcher.setlaunchMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
+        launcher.setsecondaryMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
       }, launcher));
 
     configureBindings();

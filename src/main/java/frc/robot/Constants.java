@@ -26,7 +26,7 @@ public final class Constants {
                         public static final Integer kLeftMotor2_Port = 3;}
   } 
 public static final class Launcher{
-  public static final Integer kLaunchMotor_port = 5;
-  public static final Integer kSecondaryMotor_port = 6;
+  public static final Integer kLaunchMotor_port = 6;
+  public static final Integer kSecondaryMotor_port = 5;
 }
 }

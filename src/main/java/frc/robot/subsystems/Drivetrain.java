@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import com.revrobotics.CANSparkMax.IdleMode;
+// import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkBase.IdleMode;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -81,10 +81,10 @@ rightmotor1.set(power);
 
   
   public void tankDrive(double leftSpeed, double rightSpeed, boolean squareInputs) {
-    leftSpeed = MathUtil.applyDeadband(leftSpeed, 0.02);
-    rightSpeed = MathUtil.applyDeadband(rightSpeed, 0.02);
-    leftSpeed = MathUtil.clamp(leftSpeed, -1.0, 1.0);
-    rightSpeed = MathUtil.clamp(rightSpeed, -1.0, 1.0);
+    leftSpeed = MathUtil.applyDeadband(leftSpeed, 0.005); // halved
+    rightSpeed = MathUtil.applyDeadband(rightSpeed, 0.005);
+    leftSpeed = MathUtil.clamp(leftSpeed, -0.5, 0.25); // halved
+    rightSpeed = MathUtil.clamp(rightSpeed, -0.5, 0.25);
 
     if (squareInputs) {
       leftSpeed = Math.copySign(leftSpeed * leftSpeed, leftSpeed);

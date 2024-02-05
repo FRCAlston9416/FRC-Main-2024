@@ -20,13 +20,23 @@ public class Launcher extends SubsystemBase{
     
 
     public Launcher() {
+        launchMotor.setInverted(false);
+        secondaryMotor.setInverted(true);
         
     }
-    public void setlaunchMotor(double power){launchMotor.set(power);
+    // leftTrigger: backwards
+    // rightTrigger: forward
+    public void setlaunchMotor(double leftTrigger, double rightTrigger) {
+        leftTrigger = leftTrigger * -1;
+        double power = leftTrigger + rightTrigger;
+        launchMotor.set(-power);
     }
 {
     
 }
-    public void setsecondaryMotor(double power){secondaryMotor.set(power);
+    public void setsecondaryMotor(double leftTrigger, double rightTrigger) {
+        leftTrigger = leftTrigger * -1;
+        double power = leftTrigger + rightTrigger;
+        secondaryMotor.set(power);
     }
 }
