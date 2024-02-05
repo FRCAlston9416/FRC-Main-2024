@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,6 +22,17 @@ private final CANSparkMax leftmotor2 = new CANSparkMax(Constants.Drivetrain.Left
 
 
  public Drivetrain() {
+  leftmotor1.setInverted(true);
+  leftmotor2.setInverted(true);
+  rightmotor1.setInverted(false);
+  rightmotor2.setInverted(false);
+  leftmotor1.setIdleMode(IdleMode.kCoast);
+  leftmotor2.setIdleMode(IdleMode.kCoast);
+  rightmotor1.setIdleMode(IdleMode.kCoast);
+  rightmotor2.setIdleMode(IdleMode.kCoast);
+
+
+
   leftmotor2.follow(leftmotor1); 
   rightmotor2.follow(rightmotor1);
  }
