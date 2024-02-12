@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -36,13 +37,25 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    SlewRateLimiter leftFilter = new SlewRateLimiter(0.9);
+    SlewRateLimiter rightFilter = new SlewRateLimiter(0.9);
     // Configure the trigger bindings
+
+    // Tank drive
     this.drivetrain.setDefaultCommand(new RunCommand(() ->{
-      // drivetrain.setRight(m_driverController.getRightY());
-      // drivetrain.setLeft(m_driverController.getLeftY());
-      drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
+      // With slew rate limit
+      drivetrain.tankDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightY()), true);
+      
+      // No slew rate limit
+      // drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
       }, drivetrain));
+
+      // Intake
       this.launcher.setDefaultCommand(new RunCommand(() ->{
+        double leftTrigger = m_driverController.getLeftTriggerAxis();
+        double rightTrigger = m_driverController.getRightTriggerAxis();
+        
+  
         // launcher.setlaunchMotor(m_driverController.getLeftX(), m_driverController.getRightX());
         // launcher.setsecondaryMotor(m_driverController.getLeftX(), m_driverController.getRightX());
         launcher.setlaunchMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
