@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import frc.robot.subsystems.Launcher;
  
 // import edu.wpi.first.wpilibj2.command.Command;
@@ -37,14 +39,16 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    SlewRateLimiter leftFilter = new SlewRateLimiter(0.9);
-    SlewRateLimiter rightFilter = new SlewRateLimiter(0.9);
+    CameraServer.startAutomaticCapture();
+    SlewRateLimiter leftFilter = new SlewRateLimiter(1.5);
+    SlewRateLimiter rightFilter = new SlewRateLimiter(1.5);
     // Configure the trigger bindings
 
     // Tank drive
     this.drivetrain.setDefaultCommand(new RunCommand(() ->{
       // With slew rate limit
-      drivetrain.tankDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightY()), true);
+      drivetrain.tankDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightY()), 3);
+
       
       // No slew rate limit
       // drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);

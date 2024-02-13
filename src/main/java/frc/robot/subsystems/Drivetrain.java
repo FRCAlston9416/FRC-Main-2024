@@ -80,21 +80,21 @@ rightmotor1.set(power);
   }
 
   
-  public void tankDrive(double leftSpeed, double rightSpeed, boolean squareInputs) {
+  public void tankDrive(double leftSpeed, double rightSpeed, double exponent  ) {
     // deadband to zero out joystick values close to zero
     leftSpeed = MathUtil.applyDeadband(leftSpeed, 0.01); 
     rightSpeed = MathUtil.applyDeadband(rightSpeed, 0.01);
 
     // clamp to limit max
-    leftSpeed = MathUtil.clamp(leftSpeed, -0.5, 0.5);
-    rightSpeed = MathUtil.clamp(rightSpeed, -0.5, 0.5);
+    leftSpeed = MathUtil.clamp(leftSpeed, -0.7, 0.7);
+    rightSpeed = MathUtil.clamp(rightSpeed, -0.7, 0.7);
 
     // square decimal inputs to further reduce values
-    if (squareInputs) {
-      leftSpeed = Math.copySign(leftSpeed * leftSpeed, leftSpeed);
-      rightSpeed = Math.copySign(rightSpeed * rightSpeed, rightSpeed);
+    if (exponent > 1) {
+      leftSpeed = Math.copySign(Math.pow(leftSpeed,exponent), leftSpeed);
+      rightSpeed = Math.copySign(Math.pow(rightSpeed,exponent), rightSpeed);
     }
     setLeft(leftSpeed);
-    setRight(rightSpeed); 
+    setRight(rightSpeed);
   }
 }
