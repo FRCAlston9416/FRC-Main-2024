@@ -14,9 +14,13 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import frc.robot.subsystems.Launcher;
+import frc.robot.subsystems.drivetrain.commands.AutonomousDriveForward;
+import frc.robot.subsystems.drivetrain.commands.Autonomousturn;
+import frc.robot.subsystems.drivetrain.commands.Shoot;
  
 // import edu.wpi.first.wpilibj2.command.Command;
 /**
@@ -39,16 +43,16 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    CameraServer.startAutomaticCapture();
-    SlewRateLimiter leftFilter = new SlewRateLimiter(1.5);
-    SlewRateLimiter rightFilter = new SlewRateLimiter(1.5);
+    // CameraServer.startAutomaticCapture();
+    SlewRateLimiter leftFilter = new SlewRateLimiter(3);
+    SlewRateLimiter rightFilter = new SlewRateLimiter(3);
     // Configure the trigger bindings
 
     // Tank drive
     this.drivetrain.setDefaultCommand(new RunCommand(() ->{
       // With slew rate limit
-      drivetrain.tankDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightY()), 3);
-
+      // drivetrain.tankDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightY()), 3);
+      drivetrain.setArcadeDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightX()), false);
       
       // No slew rate limit
       // drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
@@ -85,10 +89,20 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(drivetrain.exampleMethodCommand());
   
-  }}
+  }
+
+  public Command getAutonomousCommand(){
+    // return new Autonomousturn(drivetrain, 180);
+    return new Shoot(launcher);
+  }
+
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
+
+
+  
