@@ -43,7 +43,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture();
     SlewRateLimiter leftFilter = new SlewRateLimiter(3);
     SlewRateLimiter rightFilter = new SlewRateLimiter(3);
     // Configure the trigger bindings
