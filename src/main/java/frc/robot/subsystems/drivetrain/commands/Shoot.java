@@ -28,7 +28,6 @@ public class Shoot extends Command {
     this.launcher.setsecondaryMotor(0, 1);
 
     }
-
     @Override
     public boolean isFinished(){
        return timer.get() > 3;
