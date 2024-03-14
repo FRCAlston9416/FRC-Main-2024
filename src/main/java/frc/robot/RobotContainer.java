@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Launcher;
-import frc.robot.subsystems.drivetrain.commands.AutonomousDriveForward;
-import frc.robot.subsystems.drivetrain.commands.Autonomousturn;
-import frc.robot.subsystems.drivetrain.commands.Shoot;
-import frc.robot.subsystems.drivetrain.commands.ShootNote;
+// import frc.robot.subsystems.drivetrain.commands.AutonomousDriveForward;
+// import frc.robot.subsystems.drivetrain.commands.Autonomousturn;
+// import frc.robot.subsystems.drivetrain.commands.Shoot;
+// import frc.robot.subsystems.drivetrain.commands.ShootNote;
  
 // import edu.wpi.first.wpilibj2.command.Command;
 /**
@@ -31,12 +31,13 @@ import frc.robot.subsystems.drivetrain.commands.ShootNote;
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
+ * @param <AutoPicker>
  */
-public class RobotContainer {
+public class RobotContainer<AutoPicker> {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain = new Drivetrain();
   private final Launcher launcher = new Launcher();
- //  private final AutoPicker autoPicker;
+   private final AutoPicker autoPicker;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -45,10 +46,22 @@ public class RobotContainer {
 //  private Object autoPicker;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    CameraServer.startAutomaticCapture();
+  public class RobotContainer {
+    private AutoPicker autoPicker; // Assuming you have a field named 'autoPicker'
+
+    public RobotContainer() {
+        // Initialize 'autoPicker' here (e.g., create an instance or set it to an existing one)
+        this.autoPicker = new AutoPicker();
+            CameraServer.startAutomaticCapture();
+
+    }
+}
     SlewRateLimiter leftFilter = new SlewRateLimiter(3);
     SlewRateLimiter rightFilter = new SlewRateLimiter(3);
+
+    }
+}
+
     // Configure the trigger bindings
 
     // Tank drive
@@ -58,31 +71,27 @@ public class RobotContainer {
       drivetrain.setArcadeDrive(leftFilter.calculate(m_driverController.getLeftY()), rightFilter.calculate(m_driverController.getRightX()), false);
       
       // No slew rate limit
-      // drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
+       // drivetrain.setArcadeDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
       }, drivetrain));
 
-      // Delete if doesn't work, will replace current Intake system for now until testing.
-      m_driverController.leftTrigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new RunCommand(() -> {
-        launcher.setlaunchMotor(1, 0);
-      })), new WaitCommand(2), new ParallelRaceGroup(new RunCommand(() -> {
-        launcher.setlaunchMotor(1, 0);
-        launcher.setsecondaryMotor(1,1);
-      })), new WaitCommand(2)));
+
 
       // Intake
-      /* this.launcher.setDefaultCommand(new RunCommand(() ->{
+       // this.launcher.setDefaultCommand(new RunCommand(() ->{
         double leftTrigger = m_driverController.getLeftTriggerAxis();
         double rightTrigger = m_driverController.getRightTriggerAxis();
         
   
-        // launcher.setlaunchMotor(m_driverController.getLeftX(), m_driverController.getRightX());
+       //  launcher.setlaunchMotor(m_driverController.getLeftX(), m_driverController.getRightX());
         // launcher.setsecondaryMotor(m_driverController.getLeftX(), m_driverController.getRightX());
         launcher.setlaunchMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
         launcher.setsecondaryMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
-      }, launcher)); */
+       }
+      }
+      // }, launcher));
 
-    configureBindings();
-}
+    // configureBindings();
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -92,22 +101,22 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
+  // private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(drivetrain.exampleMethodCommand());
+    // m_driverController.b().whileTrue(drivetrain.exampleMethodCommand());
   
-  }
+  
 
-  public Command getAutonomousCommand(){
+  // public Command getAutonomousCommand(){
     // return new Autonomousturn(drivetrain, 180);
-    return new ShootNote(launcher);
-  }
+    // return new ShootNote(launcher);
+  
 
-}
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
