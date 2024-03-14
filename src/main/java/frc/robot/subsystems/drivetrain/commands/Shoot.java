@@ -1,44 +1,22 @@
 package frc.robot.subsystems.drivetrain.commands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Launcher;
 
-public class Shoot extends Command {
-    Launcher launcher;
-    double power = 1;
-    Timer timer = new Timer();
-
-    public Shoot(Launcher launcher){
-    this.launcher = launcher;
-    
-    }
-
-    @Override
-    public void initialize(){
-     timer.reset();
-     timer.start();
-    }
-
-    @Override
-    public void execute(){
-    this.launcher.setlaunchMotor(0, 1);
-    this.launcher.setsecondaryMotor(0, 1);
-
-    }
-
-    @Override
-    public boolean isFinished(){
-       return timer.get() > 3;
-    }
-
-    @Override
-    public void end(boolean interrupted){
-        this.launcher.setsecondaryMotor(0, 0);
-        this.launcher.setsecondaryMotor(0, 0);
-        timer.stop();
-
+public class Shoot extends SequentialCommandGroup {
+    public Shoot(Launcher launcher) {
+        this.addCommands(
+                new ParallelRaceGroup(new RunCommand(() -> {
+                    launcher.setlaunchMotor(1, 0);
+                    launcher.setsecondaryMotor(1, 0); System.err.println("stringed");
+                }, launcher), new WaitCommand(2)), new InstantCommand(() -> {
+                    launcher.setlaunchMotor(0, 0);
+                    launcher.setsecondaryMotor(0, 0);
+                }, launcher));
+                addRequirements(launcher);
     }
 }
