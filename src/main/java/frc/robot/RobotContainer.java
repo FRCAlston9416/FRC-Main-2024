@@ -15,15 +15,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.drivetrain.commands.AutonomousDriveForward;
 import frc.robot.subsystems.drivetrain.commands.Autonomousturn;
 import frc.robot.subsystems.drivetrain.commands.Shoot;
-import frc.robot.subsystems.drivetrain.commands.ShootNote;
  
 // import edu.wpi.first.wpilibj2.command.Command;
 /**
@@ -61,16 +58,8 @@ public class RobotContainer {
       // drivetrain.tankDrive(m_driverController.getLeftY(), m_driverController.getRightY(), true);
       }, drivetrain));
 
-      // Delete if doesn't work, will replace current Intake system for now until testing.
-      m_driverController.leftTrigger().onTrue(new SequentialCommandGroup(new ParallelRaceGroup(new RunCommand(() -> {
-        launcher.setlaunchMotor(1, 0);
-      })), new WaitCommand(2), new ParallelRaceGroup(new RunCommand(() -> {
-        launcher.setlaunchMotor(1, 0);
-        launcher.setsecondaryMotor(1,1);
-      })), new WaitCommand(2)));
-
       // Intake
-      /* this.launcher.setDefaultCommand(new RunCommand(() ->{
+      this.launcher.setDefaultCommand(new RunCommand(() ->{
         double leftTrigger = m_driverController.getLeftTriggerAxis();
         double rightTrigger = m_driverController.getRightTriggerAxis();
         
@@ -79,7 +68,7 @@ public class RobotContainer {
         // launcher.setsecondaryMotor(m_driverController.getLeftX(), m_driverController.getRightX());
         launcher.setlaunchMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
         launcher.setsecondaryMotor(m_driverController.getLeftTriggerAxis(), m_driverController.getRightTriggerAxis());
-      }, launcher)); */
+      }, launcher));
 
     configureBindings();
 }
@@ -104,7 +93,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand(){
     // return new Autonomousturn(drivetrain, 180);
-    return new ShootNote(launcher);
+    return new Shoot(launcher);
   }
 
 }

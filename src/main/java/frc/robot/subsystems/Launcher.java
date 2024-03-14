@@ -50,7 +50,7 @@ public class Launcher extends SubsystemBase{
         // when shooting, have a time delay so top motor can reach max speed first
         if (power < 0) {
             System.out.println(this.launchMotor.getAppliedOutput());
-            if ((this.launchMotor.getAppliedOutput()) < 1) {
+            if ((this.launchMotor.getAppliedOutput()) < 0.5) {
                 power = 0;
             }
             else {
@@ -58,5 +58,6 @@ public class Launcher extends SubsystemBase{
             }
         }
         secondaryMotor.set(power);
+
     }
 }
